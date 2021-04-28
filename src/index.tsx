@@ -4,8 +4,8 @@ import {
   Text,
   View,
   ImageBackground,
-  Image,
   ImageSourcePropType,
+  ViewStyle,
 } from 'react-native';
 
 import FlipCard from 'react-native-flip-card';
@@ -14,24 +14,29 @@ import creditcardutils from 'creditcardutils';
 type Props = {
   /** Number to display on the front of the card */
   number: number | string;
+  numberContainerStyles?: object;
 
   /** Name to display on the front of the card */
   name: string;
+  nameContainerStyles?: object;
 
   /** CVC to display on the back of the card */
   cvc: number | string;
-
+  labelCvc?: string;
+  cvcContainerStyles?: ViewStyle;
   /** Expiration Date to display on the front of the card. displayed as given, so it should be formatted */
   expiration: string;
 
+  labelExpiration?: string;
+  expirationContainerStyles?: ViewStyle;
   /** Year for `Customer Since` */
   since?: number | string;
 
   /** Additional styles to apply to the front of the card */
-  frontStyles?: object;
+  frontStyles?: ViewStyle;
 
   /** Additional styles to apply to the back of the card */
-  backStyles?: object;
+  backStyles?: ViewStyle;
 
   /** Alternate image to use for the front of the card */
   frontImage?: ImageSourcePropType;
@@ -53,6 +58,7 @@ type Props = {
 
   /** Text font color. Default: #FFFFFF (White) */
   fontColor?: string;
+  fontColorCvc?: string;
 
   /** Friction for the card flip. I couldn't figure out what this does, but I'm just passing it to `react-native-flip-card` if anyone wants it */
   friction?: number;
@@ -62,6 +68,9 @@ type Props = {
 
   /** Border Radius to use on the images */
   borderRadius?: number;
+
+  backComponent?: JSX.Element;
+  frontComponent?: JSX.Element;
 } & typeof defaultProps;
 
 const defaultProps = {
@@ -134,6 +143,8 @@ const CreditCardDisplay = (props: Props) => {
           'data:image/png;base64,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',
       };
       break;
+    default:
+      return cardTypeIcon;
   }
 
   return (
@@ -144,121 +155,144 @@ const CreditCardDisplay = (props: Props) => {
         flipVertical={false}
         flip={props.flipped}
       >
-        <View style={props.frontStyles}>
-          <View style={{ height: props.height, width: props.width }}>
-            <ImageBackground
-              source={props.frontImage}
-              style={styles.imageBackground}
-              imageStyle={{ borderRadius: props.borderRadius }}
-            >
-              <View style={styles.imageContainer}>
-                <View style={{ flexGrow: 1 }} />
+        {props.frontComponent || (
+          <View style={props.frontStyles}>
+            <View style={{ height: props.height, width: props.width }}>
+              <ImageBackground
+                source={props.frontImage}
+                style={styles.imageBackground}
+                imageStyle={{ borderRadius: props.borderRadius }}
+              >
+                <View style={styles.imageContainer}>
+                  <View style={{ flexGrow: 1 }} />
 
-                <Text
-                  style={{
-                    fontSize: props.fontSize,
-                    alignSelf: 'center',
-                    color: props.fontColor,
-                  }}
-                >
-                  {creditcardutils.formatCardNumber(String(props.number))}
-                </Text>
-
-                <View style={styles.rowContainer}>
-                  <View style={styles.groupContainer}>
-                    {props.since && (
-                      <>
-                        <Text
-                          style={{
-                            ...styles.groupLabel,
-                            fontSize: props.fontSize * 0.7,
-                            color: props.fontColor,
-                            textAlign: 'right',
-                          }}
-                        >
-                          CUSTOMER{'\n'}SINCE
-                        </Text>
-
-                        <Text
-                          style={{
-                            fontSize: props.fontSize * 0.7,
-                            color: props.fontColor,
-                          }}
-                        >
-                          {props.since}
-                        </Text>
-                      </>
-                    )}
+                  <View style={props.numberContainerStyles}>
+                    <Text
+                      style={{
+                        fontSize: props.fontSize,
+                        // alignSelf: 'center',
+                        color: props.fontColor,
+                      }}
+                    >
+                      {creditcardutils.formatCardNumber(String(props.number))}
+                    </Text>
                   </View>
 
-                  <View style={styles.groupContainer}>
-                    {props.expiration && (
-                      <>
-                        <Text
-                          style={{
-                            ...styles.groupLabel,
-                            fontSize: props.fontSize * 0.7,
-                            color: props.fontColor,
-                            textAlign: 'center',
-                          }}
-                        >
-                          VALID{'\n'}THRU
-                        </Text>
+                  <View style={styles.rowContainer}>
+                    <View style={styles.groupContainer}>
+                      {props.since && (
+                        <>
+                          <Text
+                            style={{
+                              ...styles.groupLabel,
+                              fontSize: props.fontSize * 0.7,
+                              color: props.fontColor,
+                              textAlign: 'right',
+                            }}
+                          >
+                            CUSTOMER{'\n'}SINCE
+                          </Text>
 
-                        <Text
-                          style={{
-                            fontSize: props.fontSize * 0.7,
-                            color: props.fontColor,
-                          }}
-                        >
-                          {creditcardutils.formatCardExpiry(props.expiration)}
-                        </Text>
-                      </>
-                    )}
+                          <Text
+                            style={{
+                              fontSize: props.fontSize * 0.7,
+                              color: props.fontColor,
+                            }}
+                          >
+                            {props.since}
+                          </Text>
+                        </>
+                      )}
+                    </View>
                   </View>
-                  <View style={styles.cardTypeIconContainer}>
-                    {cardTypeIcon && (
-                      <Image
-                        source={cardTypeIcon}
-                        style={styles.cardTypeIcon}
-                        resizeMode="contain"
-                      />
-                    )}
+                  <View
+                    style={[
+                      {
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                      },
+                    ]}
+                  >
+                    <View
+                      style={[
+                        props.nameContainerStyles,
+                        { flex: 1, marginRight: 10, alignSelf: 'center' },
+                      ]}
+                    >
+                      <Text
+                        style={{
+                          fontSize: props.fontSize,
+                          marginTop: 5,
+                          color: props.fontColor,
+                        }}
+                      >
+                        {props.name}
+                      </Text>
+                    </View>
+                    <View
+                      style={[
+                        styles.groupContainer,
+                        props.expirationContainerStyles,
+                      ]}
+                    >
+                      {props.expiration ? (
+                        <>
+                          <Text
+                            style={{
+                              ...styles.groupLabel,
+                              fontSize: props.fontSize * 0.7,
+                              color: props.fontColor,
+                              textAlign: 'center',
+                            }}
+                          >
+                            {props.labelExpiration}
+                          </Text>
+
+                          <Text
+                            style={{
+                              fontSize: props.fontSize * 0.7,
+                              color: props.fontColor,
+                            }}
+                          >
+                            {creditcardutils.formatCardExpiry(props.expiration)}
+                          </Text>
+                        </>
+                      ) : null}
+                    </View>
                   </View>
                 </View>
-                <Text
-                  style={{
-                    fontSize: props.fontSize,
-                    marginTop: 5,
-                    color: props.fontColor,
-                  }}
-                >
-                  {props.name}
-                </Text>
-              </View>
-            </ImageBackground>
+              </ImageBackground>
+            </View>
           </View>
-        </View>
+        )}
 
-        <View style={props.backStyles}>
-          <View style={{ height: props.height, width: props.width }}>
-            <ImageBackground
-              source={props.backImage}
-              style={styles.imageBackground}
-              imageStyle={{ borderRadius: 15 }}
-            >
-              <View style={{ height: '45%' }} />
+        {props.backComponent || (
+          <View style={props.backStyles}>
+            <View style={{ height: props.height, width: props.width }}>
+              <ImageBackground
+                source={props.backImage}
+                style={styles.imageBackground}
+                imageStyle={{ borderRadius: 15 }}
+              >
+                <View style={{ height: '45%' }} />
 
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: '82%' }} />
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ width: '82%' }} />
 
-                <Text style={{ fontSize: props.fontSize, alignSelf: 'center' }}>
-                  {props.cvc}
-                </Text>
-              </View>
-            </ImageBackground>
+                  <Text
+                    style={{
+                      fontSize: props.fontSize,
+                      alignSelf: 'center',
+                      color: props.fontColorCvc ?? 'black',
+                    }}
+                  >
+                    {props.cvc}
+                  </Text>
+                </View>
+              </ImageBackground>
+            </View>
           </View>
-        </View>
+        )}
       </FlipCard>
     </View>
   );
@@ -275,6 +309,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginRight: '2%',
+    marginVertical: 5,
   },
   groupLabel: {
     textAlignVertical: 'center',
