@@ -230,24 +230,21 @@ const CreditCardDisplay = (props: Props) => {
                       {props.name}
                     </Text>
                   </View>
-                  <View
-                    style={[
-                      styles.groupContainer,
-
-                    ]}
-                  >
+                  <View style={[styles.groupContainer]}>
                     {props.expiration ? (
                       <View style={props.expirationContainerStyles}>
-                        {props.labelExpiration && <Text
-                          style={{
-                            ...styles.groupLabel,
-                            fontSize: props.fontSize * 0.7,
-                            color: props.fontColor,
-                            textAlign: 'center',
-                          }}
-                        >
-                          {props.labelExpiration}
-                        </Text>}
+                        {props.labelExpiration && (
+                          <Text
+                            style={{
+                              ...styles.groupLabel,
+                              fontSize: props.fontSize * 0.7,
+                              color: props.fontColor,
+                              textAlign: 'center',
+                            }}
+                          >
+                            {props.labelExpiration}
+                          </Text>
+                        )}
 
                         <Text
                           style={{
