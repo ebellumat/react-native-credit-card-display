@@ -233,12 +233,12 @@ const CreditCardDisplay = (props: Props) => {
                   <View
                     style={[
                       styles.groupContainer,
-                      props.expirationContainerStyles,
+
                     ]}
                   >
                     {props.expiration ? (
                       <View style={props.expirationContainerStyles}>
-                        <Text
+                        {props.labelExpiration && <Text
                           style={{
                             ...styles.groupLabel,
                             fontSize: props.fontSize * 0.7,
@@ -247,7 +247,7 @@ const CreditCardDisplay = (props: Props) => {
                           }}
                         >
                           {props.labelExpiration}
-                        </Text>
+                        </Text>}
 
                         <Text
                           style={{
