@@ -155,7 +155,9 @@ const CreditCardDisplay = (props: Props) => {
         flipVertical={false}
         flip={props.flipped}
       >
-        {props.frontComponent || (
+        {props.frontComponent ? (
+          props.frontComponent
+        ) : (
           <View style={props.frontStyles}>
             <View style={{ height: props.height, width: props.width }}>
               <ImageBackground
@@ -266,7 +268,9 @@ const CreditCardDisplay = (props: Props) => {
           </View>
         )}
 
-        {props.backComponent || (
+        {props.backComponent ? (
+          props.backComponent
+        ) : (
           <View style={props.backStyles}>
             <View style={{ height: props.height, width: props.width }}>
               <ImageBackground
