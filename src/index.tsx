@@ -155,148 +155,140 @@ const CreditCardDisplay = (props: Props) => {
         flipVertical={false}
         flip={props.flipped}
       >
-        {props.frontComponent ? (
-          props.frontComponent
-        ) : (
-          <View style={props.frontStyles}>
-            <View style={{ height: props.height, width: props.width }}>
-              <ImageBackground
-                source={props.frontImage}
-                style={styles.imageBackground}
-                imageStyle={{ borderRadius: props.borderRadius }}
-              >
-                <View style={styles.imageContainer}>
-                  <View style={{ flexGrow: 1 }} />
+        <View style={props.frontStyles}>
+          <View style={{ height: props.height, width: props.width }}>
+            <ImageBackground
+              source={props.frontImage}
+              style={styles.imageBackground}
+              imageStyle={{ borderRadius: props.borderRadius }}
+            >
+              <View style={styles.imageContainer}>
+                <View style={{ flexGrow: 1 }} />
 
-                  <View style={[props.numberContainerStyles]}>
-                    <Text
-                      style={{
-                        fontSize: props.fontSize,
-                        // alignSelf: 'center',
-                        color: props.fontColor,
-                      }}
-                    >
-                      {creditcardutils.formatCardNumber(String(props.number))}
-                    </Text>
-                  </View>
-
-                  <View style={styles.rowContainer}>
-                    <View style={styles.groupContainer}>
-                      {props.since && (
-                        <>
-                          <Text
-                            style={{
-                              ...styles.groupLabel,
-                              fontSize: props.fontSize * 0.7,
-                              color: props.fontColor,
-                              textAlign: 'right',
-                            }}
-                          >
-                            CUSTOMER{'\n'}SINCE
-                          </Text>
-
-                          <Text
-                            style={{
-                              fontSize: props.fontSize * 0.7,
-                              color: props.fontColor,
-                            }}
-                          >
-                            {props.since}
-                          </Text>
-                        </>
-                      )}
-                    </View>
-                  </View>
-                  <View
-                    style={[
-                      {
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      },
-                    ]}
-                  >
-                    <View
-                      style={[
-                        props.nameContainerStyles,
-                        { flex: 1, marginRight: 10, alignSelf: 'center' },
-                      ]}
-                    >
-                      <Text
-                        style={{
-                          fontSize: props.fontSize,
-                          marginTop: 5,
-                          color: props.fontColor,
-                        }}
-                      >
-                        {props.name}
-                      </Text>
-                    </View>
-                    <View
-                      style={[
-                        styles.groupContainer,
-                        props.expirationContainerStyles,
-                      ]}
-                    >
-                      {props.expiration ? (
-                        <>
-                          <Text
-                            style={{
-                              ...styles.groupLabel,
-                              fontSize: props.fontSize * 0.7,
-                              color: props.fontColor,
-                              textAlign: 'center',
-                            }}
-                          >
-                            {props.labelExpiration}
-                          </Text>
-
-                          <Text
-                            style={{
-                              fontSize: props.fontSize * 0.7,
-                              color: props.fontColor,
-                            }}
-                          >
-                            {creditcardutils.formatCardExpiry(props.expiration)}
-                          </Text>
-                        </>
-                      ) : null}
-                    </View>
-                  </View>
-                </View>
-              </ImageBackground>
-            </View>
-          </View>
-        )}
-
-        {props.backComponent ? (
-          props.backComponent
-        ) : (
-          <View style={props.backStyles}>
-            <View style={{ height: props.height, width: props.width }}>
-              <ImageBackground
-                source={props.backImage}
-                style={styles.imageBackground}
-                imageStyle={{ borderRadius: 15 }}
-              >
-                <View style={{ height: '45%' }} />
-
-                <View style={{ flexDirection: 'row' }}>
-                  <View style={{ width: '82%' }} />
-
+                <View style={[props.numberContainerStyles]}>
                   <Text
                     style={{
                       fontSize: props.fontSize,
-                      alignSelf: 'center',
-                      color: props.fontColorCvc ?? 'black',
+                      // alignSelf: 'center',
+                      color: props.fontColor,
                     }}
                   >
-                    {props.cvc}
+                    {creditcardutils.formatCardNumber(String(props.number))}
                   </Text>
                 </View>
-              </ImageBackground>
-            </View>
+
+                <View style={styles.rowContainer}>
+                  <View style={styles.groupContainer}>
+                    {props.since && (
+                      <>
+                        <Text
+                          style={{
+                            ...styles.groupLabel,
+                            fontSize: props.fontSize * 0.7,
+                            color: props.fontColor,
+                            textAlign: 'right',
+                          }}
+                        >
+                          CUSTOMER{'\n'}SINCE
+                        </Text>
+
+                        <Text
+                          style={{
+                            fontSize: props.fontSize * 0.7,
+                            color: props.fontColor,
+                          }}
+                        >
+                          {props.since}
+                        </Text>
+                      </>
+                    )}
+                  </View>
+                </View>
+                <View
+                  style={[
+                    {
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    },
+                  ]}
+                >
+                  <View
+                    style={[
+                      props.nameContainerStyles,
+                      { flex: 1, marginRight: 10, alignSelf: 'center' },
+                    ]}
+                  >
+                    <Text
+                      style={{
+                        fontSize: props.fontSize,
+                        marginTop: 5,
+                        color: props.fontColor,
+                      }}
+                    >
+                      {props.name}
+                    </Text>
+                  </View>
+                  <View
+                    style={[
+                      styles.groupContainer,
+                      props.expirationContainerStyles,
+                    ]}
+                  >
+                    {props.expiration ? (
+                      <>
+                        <Text
+                          style={{
+                            ...styles.groupLabel,
+                            fontSize: props.fontSize * 0.7,
+                            color: props.fontColor,
+                            textAlign: 'center',
+                          }}
+                        >
+                          {props.labelExpiration}
+                        </Text>
+
+                        <Text
+                          style={{
+                            fontSize: props.fontSize * 0.7,
+                            color: props.fontColor,
+                          }}
+                        >
+                          {creditcardutils.formatCardExpiry(props.expiration)}
+                        </Text>
+                      </>
+                    ) : null}
+                  </View>
+                </View>
+              </View>
+            </ImageBackground>
           </View>
-        )}
+        </View>
+
+        <View style={props.backStyles}>
+          <View style={{ height: props.height, width: props.width }}>
+            <ImageBackground
+              source={props.backImage}
+              style={styles.imageBackground}
+              imageStyle={{ borderRadius: 15 }}
+            >
+              <View style={{ height: '45%' }} />
+
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ width: '82%' }} />
+
+                <Text
+                  style={{
+                    fontSize: props.fontSize,
+                    alignSelf: 'center',
+                    color: props.fontColorCvc ?? 'black',
+                  }}
+                >
+                  {props.cvc}
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
       </FlipCard>
     </View>
   );
