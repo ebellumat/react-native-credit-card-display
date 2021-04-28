@@ -14,11 +14,11 @@ import creditcardutils from 'creditcardutils';
 type Props = {
   /** Number to display on the front of the card */
   number: number | string;
-  numberContainerStyles?: object;
+  numberContainerStyles?: ViewStyle;
 
   /** Name to display on the front of the card */
   name: string;
-  nameContainerStyles?: object;
+  nameContainerStyles?: ViewStyle;
 
   /** CVC to display on the back of the card */
   cvc: number | string;
@@ -168,7 +168,7 @@ const CreditCardDisplay = (props: Props) => {
                 <View style={styles.imageContainer}>
                   <View style={{ flexGrow: 1 }} />
 
-                  <View style={props.numberContainerStyles}>
+                  <View style={[props.numberContainerStyles]}>
                     <Text
                       style={{
                         fontSize: props.fontSize,
